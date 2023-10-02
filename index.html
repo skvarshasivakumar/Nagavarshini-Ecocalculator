@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carbon Emission Calculator</title>
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #4CAF50; 
+            color: white;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1); 
+        }
+
+        .btn-primary {
+            background-color: #388E3C; 
+            border-color: #388E3C;
+        }
+
+        .btn-primary:hover {
+            background-color: #4CAF50; 
+            border-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+<br>
+<br>
+<br>
+    <div class="container">
+        <h1 class="text-center">Carbon Emission Calculator</h1>
+	<center>
+	<img width=150px height=80px src="logo.png">
+	</center>
+        <form id="carbonCalculator">
+            <div class="form-group">
+                <label for="milesDriven">Miles Driven:</label>
+                <input type="number" class="form-control" id="milesDriven" placeholder="Enter miles driven">
+            </div>
+            <div class="form-group">
+                <label for="fuelEfficiency">Fuel Efficiency (miles per gallon):</label>
+                <input type="number" class="form-control" id="fuelEfficiency" placeholder="Enter fuel efficiency">
+            </div>
+            <div class="form-group">
+                <label for="fuelType">Fuel Type:</label>
+                <select class="form-control" id="fuelType">
+                    <option value="gasoline">Gasoline</option>
+                    <option value="diesel">Diesel</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary" id="calculateButton">Calculate</button>
+        </form>
+        <div class="mt-3" id="result"></div>
+    </div>
+
+    <!-- Link to Bootstrap and jQuery JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+       function calculateCarbonEmission(milesDriven, fuelEfficiency, fuelType) {
+            const CO2_PER_GALLON_GASOLINE = 8.887;
+            const CO2_PER_GALLON_DIESEL = 10.180;
+
+            let emissions;
+            if (fuelType === "gasoline") {
+                emissions = (milesDriven / fuelEfficiency) * CO2_PER_GALLON_GASOLINE;
+            } else if (fuelType === "diesel") {
+                emissions = (milesDriven / fuelEfficiency) * CO2_PER_GALLON_DIESEL;
+            } else {
+                throw new Error("Invalid fuel type. Use 'gasoline' or 'diesel'.");
+            }
+
+            return emissions.toFixed(2);
+        }
+
+        // Calculate and display carbon emissions
+        document.getElementById("calculateButton").addEventListener("click", function () {
+            const milesDriven = parseFloat(document.getElementById("milesDriven").value);
+            const fuelEfficiency = parseFloat(document.getElementById("fuelEfficiency").value);
+            const fuelType = document.getElementById("fuelType").value;
+
+            if (!isNaN(milesDriven) && !isNaN(fuelEfficiency)) {
+                const emissions = calculateCarbonEmission(milesDriven, fuelEfficiency, fuelType);
+                document.getElementById("result").innerHTML = `Carbon emissions: ${emissions} kg CO2`;
+            } else {
+                document.getElementById("result").innerHTML = "Please enter valid input values.";
+            }
+        });
+    </script>
+</body>
+</html>
